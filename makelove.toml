@@ -1,0 +1,13 @@
+name = ""
+default_targets = ["win32", "win64", "appimage"]
+build_directory = "builds"
+
+icon_file = "assets/icon.png"
+
+love_files = [
+    "+*",
+    "-*/.*",
+    "-./builds/*",
+    "-./dev/*",
+    "-./makelove.toml"
+]
