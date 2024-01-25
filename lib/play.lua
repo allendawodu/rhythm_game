@@ -3,8 +3,12 @@ local play = {
     current = nil
 }
 
-function play.start(default)
+function play.start(default, ...)
     play.current = default
+    local otherScenes = {...}
+    for _, scene in ipairs(otherScenes) do
+        play.scenes[scene.name] = scene
+    end
     for _, scene in pairs(play.scenes) do
         scene:load()
     end
@@ -38,8 +42,8 @@ end
 function play.switch(to, ...)
     local previous = play.current
     play.current:exit()
-    play.current = to
-    to:enter(previous, ...)
+    play.current = play.scenes[to]
+    play.current:enter(previous, ...)
 end
 
 function play.draw()

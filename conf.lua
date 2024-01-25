@@ -5,6 +5,6 @@ function love.conf(t)
     t.modules.physics = false
     t.version = "11.4"
     t.console = false
-    -- t.window.title = ""
+    t.window.title = "Rhythm Game"
     -- t.window.icon = ""
 end
