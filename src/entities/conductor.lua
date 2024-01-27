@@ -1,73 +1,3 @@
--- return function ()
---     local conductor = {}
-
---    function conductor:load(beam, song, bpm, offset)
---         self.beam = beam
---         self.song = song
---         self.bpm = bpm
---         self.eighthNoteDuration = 60 / self.bpm / 2
---         self.offset = offset
---         self.songPosition = 0
---         self.lastBeat = 0
---         self.beat = 1
-
---         self.song:play()
-
---         return self
---    end
-
---    function conductor:update()
---         self.songPosition = self.song:tell() - self.offset + self.eighthNoteDuration
-
---         if self.songPosition > self.lastBeat + self.eighthNoteDuration then
---             local error = self.songPosition - (self.lastBeat + self.eighthNoteDuration)
---             self.lastBeat = self.lastBeat + self.eighthNoteDuration - error
-
---             self.beam:emit("beat", self.beat)
---             -- print("ding!", error)
-
---             self.beat = self.beat + 1
---         end
---    end
-
---    return conductor
--- end
-
--- return function ()
---     local conductor = {}
-
---     function conductor:load(beam, song, bpm, offset)
---         self.beam = beam
---         self.song = song
---         self.bpm = bpm
---         self.eighthNoteDuration = 60 / self.bpm / 2
---         self.offset = offset
---         self.songPosition = 0
---         self.lastBeat = 0
---         self.beat = 1
-
---         self.song:play()
---         self.startTime = love.timer.getTime() - self.eighthNoteDuration -- Use a high-precision timer
-
---         return self
---     end
-
---     function conductor:update()
---         local currentTime = love.timer.getTime() - self.startTime
---         local expectedPosition = self.beat * self.eighthNoteDuration + self.offset
-
---         if currentTime >= expectedPosition then
---             self.beam:emit("beat", self.beat)
---             -- print("Beat!", self.beat)
-
---             self.beat = self.beat + 1
---             self.lastBeat = expectedPosition
---         end
---     end
-
---     return conductor
--- end
-
 return function ()
     local conductor = {}
 
@@ -75,31 +5,45 @@ return function ()
         self.beam = beam
         self.song = song
         self.bpm = bpm
-        self.eighthNoteDuration = 60 / self.bpm / 2
+        -- Initial time offset for the first beat
         self.offset = offset
-        self.beatTimes = {}
+        -- Counter for which eighth note we're on
         self.beat = 1
+        -- Used for error correction in beat timing
+        self.errorCorrectionFactor = 0
+        -- Smooth out timing discrepancies without causing abrupt changes
+        self.correctionRate = 60 / self.bpm * 0.005
 
-        -- Pre-calculate beat times
+        -- Beat prediction and timing
+        self.eighthNoteDuration = 60 / self.bpm / 2
+        self.beatTimes = {}
         for i = 1, 1000 do
             self.beatTimes[i] = i * self.eighthNoteDuration + self.offset
         end
 
+        -- Start song
         self.song:play()
-        self.startTime = love.timer.getTime() - self.eighthNoteDuration -- Replace with an appropriate high-precision timer function
+        self.startTime = love.timer.getTime() - self.eighthNoteDuration
 
         return self
     end
 
     function conductor:update()
         local currentTime = love.timer.getTime() - self.startTime
-        local nextBeatTime = self.beatTimes[self.beat]
+        local nextBeatTime = self.beatTimes[self.beat] + self.errorCorrectionFactor
 
         if currentTime >= nextBeatTime then
             self.beam:emit("beat", self.beat)
+
+            -- Debug
             if self.beat % 4 == 1 then
-                -- print("ding!", self.beat)
+                print("ding!", self.beat)
             end
+
+            -- Calculate and apply error correction for next beat
+            local beatError = currentTime - nextBeatTime
+            self.errorCorrectionFactor = self.errorCorrectionFactor - beatError * self.correctionRate
+
             self.beat = self.beat + 1
         end
     end

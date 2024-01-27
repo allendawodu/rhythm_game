@@ -8,7 +8,7 @@ return function()
 
         self.beam:receive("beat", self, function(beat)
             if self.timings[self.currentTiming] == beat then
-                print("hit!", beat)
+                -- print("hit!", beat)
                 self.currentTiming = self.currentTiming + 1
             end
         end)
