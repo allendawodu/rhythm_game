@@ -26,6 +26,10 @@ return function ()
     function track:update()
         for i = #self.hitObjects, 1, -1 do
             self.hitObjects[i]:update()
+
+            if self.hitObjects[i].shouldDestroy then
+                table.remove(self.hitObjects, i)
+            end
         end
     end
 

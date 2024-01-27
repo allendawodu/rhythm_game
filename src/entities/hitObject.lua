@@ -5,16 +5,25 @@ return function ()
 
     function hit:load(beatTime, height)
         self.position = vector2(love.graphics.getWidth() / 2, height)
-        self.isVisible = true
+        self.judgementLineHeight = 700
+        self.disappearHeight = self.judgementLineHeight + 50
+        self.isVisible = false
+        self.shouldDestroy = false
 
-        flux.to(self.position, beatTime, {y = love.graphics.getHeight()}):ease("linear")
+        flux.to(self.position, beatTime, {y = self.judgementLineHeight})
+            :ease("linear"):after(1, {y = self.disappearHeight})
 
         return self
     end
 
     function hit:update()
-        if self.position.y >= love.graphics.getHeight() - 1 then
+        if self.position.y > -100 and not self.isVisible then
+            self.isVisible = true
+        end
+
+        if self.position.y >= self.disappearHeight - 1 then
             self.isVisible = false
+            self.shouldDestroy = true
         end
     end
 
