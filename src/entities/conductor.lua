@@ -1,3 +1,5 @@
+local hitObject = require "src.entities.hitObject"
+
 return function ()
     local conductor = {}
 
@@ -20,6 +22,7 @@ return function ()
         for i = 1, 1000 do
             self.beatTimes[i] = i * self.eighthNoteDuration + self.offset
         end
+        self.beam:emit("beatTimes", self.beatTimes)
 
         -- Start song
         self.song:play()
@@ -36,9 +39,9 @@ return function ()
             self.beam:emit("beat", self.beat)
 
             -- Debug
-            if self.beat % 4 == 1 then
-                print("ding!", self.beat)
-            end
+            -- if self.beat % 4 == 1 then
+            --     print("ding!", self.beat)
+            -- end
 
             -- Calculate and apply error correction for next beat
             local beatError = currentTime - nextBeatTime

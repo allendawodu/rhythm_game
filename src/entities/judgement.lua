@@ -4,18 +4,14 @@ return function()
     function hit:load(beam, timings)
         self.beam = beam
         self.timings = timings
-        self.currentTiming = 1
+        self.currentBeat = 1
 
         self.beam:receive("beat", self, function(beat)
-            if self.timings[self.currentTiming] == beat then
-                -- print("hit!", beat)
-                self.currentTiming = self.currentTiming + 1
+            if self.timings[self.currentBeat] == beat then
+                print("hit!", beat)
+                self.currentBeat = self.currentBeat + 1
             end
         end)
-    end
-
-    function hit:update()
-        
     end
 
     function hit:draw()
