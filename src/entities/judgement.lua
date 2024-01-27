@@ -1,14 +1,13 @@
 return function()
     local hit = {}
 
-    function hit:load(beam, timings)
-        self.beam = beam
+    function hit:load(timings)
         self.timings = timings
         self.currentBeat = 1
 
-        self.beam:receive("beat", self, function(beat)
+        beam:receive("beat", self, function(beat)
             if self.timings[self.currentBeat] == beat then
-                print("hit!", beat)
+                -- print("hit!", beat)
                 self.currentBeat = self.currentBeat + 1
             end
         end)

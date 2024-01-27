@@ -3,13 +3,12 @@ local hitObject = require "src.entities.hitObject"
 return function ()
     local track = {}
 
-    function track:load(beam, timings)
-        self.beam = beam
+    function track:load(timings)
         self.noteSpeed = 100
         self.timings = timings
         self.hitObjects = {}
 
-        self.beam:receive("beatTimes", self, function(beatTimes)
+        beam:receive("beatTimes", self, function(beatTimes)
             -- Debug
             -- for i, beatTime in ipairs(beatTimes) do
             --     if i % 4 == 1 then

@@ -1,10 +1,7 @@
-local hitObject = require "src.entities.hitObject"
-
 return function ()
     local conductor = {}
 
-    function conductor:load(beam, song, bpm, offset)
-        self.beam = beam
+    function conductor:load(song, bpm, offset)
         self.song = song
         self.bpm = bpm
         -- Initial time offset for the first beat
@@ -22,7 +19,7 @@ return function ()
         for i = 1, 1000 do
             self.beatTimes[i] = i * self.eighthNoteDuration + self.offset
         end
-        self.beam:emit("beatTimes", self.beatTimes)
+        beam:emit("beatTimes", self.beatTimes)
 
         -- Start song
         self.song:play()
@@ -36,7 +33,7 @@ return function ()
         local nextBeatTime = self.beatTimes[self.beat] + self.errorCorrectionFactor
 
         if currentTime >= nextBeatTime then
-            self.beam:emit("beat", self.beat)
+            beam:emit("beat", self.beat)
 
             -- Debug
             -- if self.beat % 4 == 1 then
