@@ -12,7 +12,7 @@ function satellite()
     function beam:emit(event, ...)
         createEvent(event)
         for _, receiver in ipairs(beam.events[event]) do
-            receiver.callback(receiver.obj, unpack({...}))
+            receiver.callback(unpack({...}))
         end
     end
 
