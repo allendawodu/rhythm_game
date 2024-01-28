@@ -2,6 +2,7 @@ beam = require "lib.beam"
 flux = require "lib.flux"
 
 local play = require "lib.play"
+local police
 
 local game = play.Scene("game")
 
@@ -44,12 +45,12 @@ function game:enter(previous, ...)
     song = "milk"
 
     track = require("src.entities.track")():load(songData[song].timings)
+    judgement = require("src.entities.judgement")():load()
     conductor = require("src.entities.conductor")():load(
         love.audio.newSource(songData[song].file, "stream"),
         songData[song].bpm,
         songData[song].offset
     )
-    judgement = require("src.entities.judgement")():load()
 end
 
 function game:update(dt)
@@ -61,6 +62,10 @@ end
 function game:draw()
     track:draw()
     judgement:draw()
+end
+
+function game:keyPressed(key, scancode, isRepeat)
+    judgement:keyPressed(key)
 end
 
 function game:exit()
