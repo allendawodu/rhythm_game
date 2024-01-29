@@ -50,7 +50,11 @@ return function()
                 beam:emit("hit")
             end
 
-            print(timingDifference)
+            -- print(timingDifference)
+        end
+
+        if key == "n" then
+            print("^")
         end
     end
 

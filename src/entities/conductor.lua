@@ -39,9 +39,9 @@ return function ()
             beam:emit("beat", self.beat)
 
             -- Debug
-            -- if self.beat % 4 == 1 then
-            --     print("ding!", self.beat)
-            -- end
+            if self.beat % 4 == 1 then
+                print("ding!", self.beat)
+            end
 
             -- Calculate and apply error correction for next beat
             local beatError = currentTime - nextBeatTime
