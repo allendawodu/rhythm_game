@@ -1,7 +1,7 @@
 local play = require "lib.play"
 
 function love.load()
-    local game = require "src.game"
+    local game = require "src.sceness.game"
 
     play.start(game)
 end
