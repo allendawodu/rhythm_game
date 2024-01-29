@@ -23,9 +23,10 @@ return function ()
             self.isVisible = true
         end
 
-        if self.body.y >= self.disappearHeight - 1 then
+        if self.body.y >= self.disappearHeight - 1 and not self.shouldDestroy then
             self.isVisible = false
             self.shouldDestroy = true
+            beam:emit("miss")
         end
     end
 

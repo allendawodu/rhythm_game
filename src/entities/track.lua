@@ -20,6 +20,10 @@ return function ()
             end
         end)
 
+        beam:receive("hit", self, function()
+            self.hitObjects[1].shouldDestroy = true
+        end)
+
         return self
     end
 

@@ -2,7 +2,6 @@ beam = require "lib.beam"
 flux = require "lib.flux"
 
 local play = require "lib.play"
-local police
 
 local game = play.Scene("game")
 
@@ -10,6 +9,7 @@ local song
 local track
 local conductor
 local judgement
+local police
 
 local songData = {
     milk = {
@@ -45,7 +45,7 @@ function game:enter(previous, ...)
     song = "milk"
 
     track = require("src.entities.track")():load(songData[song].timings)
-    judgement = require("src.entities.judgement")():load()
+    judgement = require("src.entities.judgement")():load(songData[song].timings)
     conductor = require("src.entities.conductor")():load(
         love.audio.newSource(songData[song].file, "stream"),
         songData[song].bpm,

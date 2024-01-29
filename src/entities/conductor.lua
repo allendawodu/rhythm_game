@@ -12,20 +12,21 @@ return function ()
         self.errorCorrectionFactor = 0
         -- Smooth out timing discrepancies without causing abrupt changes
         self.correctionRate = 60 / self.bpm * 0.005
-        -- Offset set by the user during calibration
-        self.userOffset = -0.1  -- -0.1 for laptop, 0.0 for Desktop
+        -- Offset set by the user during calibration (positive moves judgement downwards)
+        self.userOffset = 0.0  -- -0.1 for laptop, 0.0 for Desktop
 
         -- Beat prediction and timing
         self.eighthNoteDuration = 60 / self.bpm / 2
         self.beatTimes = {}
         for i = 1, 1000 do
-            self.beatTimes[i] = i * self.eighthNoteDuration + self.offset + self.userOffset
+            self.beatTimes[i] = i * self.eighthNoteDuration + self.offset - self.userOffset
         end
-        beam:emit("beatTimes", self.beatTimes)
 
         -- Start song
         self.song:play()
         self.startTime = love.timer.getTime() - self.eighthNoteDuration
+
+        beam:emit("beatTimes", self.beatTimes, self.startTime)
 
         return self
     end
