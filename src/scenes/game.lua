@@ -1,5 +1,4 @@
 beam = require "lib.beam"
-flux = require "lib.flux"
 
 local play = require "lib.play"
 
@@ -9,7 +8,6 @@ local song
 local track
 local conductor
 local judgement
-local police
 
 local songData = {
     milk = {
@@ -55,7 +53,6 @@ function game:enter(previous, ...)
 end
 
 function game:update(dt)
-    flux.update(dt)
     conductor:update()
     track:update()
 end

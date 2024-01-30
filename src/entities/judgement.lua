@@ -14,7 +14,7 @@ return function()
             miss = 1,
         }
 
-        beam:receive("beatTimes", self, function(beatTimes, startTime)
+        beam.receive("beatTimes", self, function(beatTimes, startTime)
             self.startTime = startTime
 
             for _, timing in ipairs(self.timings) do
@@ -22,7 +22,7 @@ return function()
             end
         end)
 
-        beam:receive("miss", self, function()
+        beam.receive("miss", self, function()
             self:removeFirstHitObject()
         end)
 
@@ -39,15 +39,16 @@ return function()
 
             if timingDifference <= self.judgements.hit then
                 print("PERFECT!")
+                beam.emit("judgement", "hit")
             elseif timingDifference <= self.judgements.miss then
                 print("MISS.")
+                beam.emit("judgement", "miss")
             else
                 print("...")
             end
 
             if timingDifference <= self.judgements.miss then
                 judgement:removeFirstHitObject()
-                beam:emit("hit")
             end
 
             -- print(timingDifference)

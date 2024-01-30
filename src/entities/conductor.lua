@@ -26,7 +26,7 @@ return function ()
         self.song:play()
         self.startTime = love.timer.getTime() - self.eighthNoteDuration
 
-        beam:emit("beatTimes", self.beatTimes, self.startTime)
+        beam.emit("beatTimes", self.beatTimes, self.startTime)
 
         return self
     end
@@ -36,7 +36,7 @@ return function ()
         local nextBeatTime = self.beatTimes[self.beat] + self.errorCorrectionFactor
 
         if currentTime >= nextBeatTime then
-            beam:emit("beat", self.beat)
+            beam.emit("beat", self.beat)
 
             -- Debug
             if self.beat % 4 == 1 then
