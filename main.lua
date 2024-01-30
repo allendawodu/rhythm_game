@@ -1,12 +1,15 @@
+flux = require "lib.flux"
+
 local play = require "lib.play"
 
 function love.load()
-    local game = require "src.sceness.game"
+    local game = require "src.scenes.game"
 
     play.start(game)
 end
 
 function love.update(dt)
+    flux.update(dt)
     play.update(dt)
 end
 
