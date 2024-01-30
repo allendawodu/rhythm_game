@@ -45,4 +45,8 @@ function beam.closeAll(obj)
     end
 end
 
+function beam.clear()
+    beam.events = {}
+end
+
 return beam
