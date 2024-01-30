@@ -8,14 +8,14 @@ local function createEvent(event)
     end
 end
 
-function beam:emit(event, ...)
+function beam.emit(event, ...)
     createEvent(event)
     for _, receiver in ipairs(beam.events[event]) do
         receiver.callback(unpack({...}))
     end
 end
 
-function beam:receive(event, obj, callback)
+function beam.receive(event, obj, callback)
     createEvent(event)
     table.insert(
         beam.events[event],
@@ -26,7 +26,7 @@ function beam:receive(event, obj, callback)
     )
 end
 
-function beam:close(event, obj)
+function beam.close(event, obj)
     for i, receiver in ipairs(beam.events[event]) do
         if receiver.obj == obj then
             table.remove(beam.events[event], i)
@@ -35,7 +35,7 @@ function beam:close(event, obj)
     end
 end
 
-function beam:closeAll(obj)
+function beam.closeAll(obj)
     for event, _ in pairs(beam.events) do
         for i = #beam.events[event], 1, -1 do
             if beam.events[event].obj == obj then
