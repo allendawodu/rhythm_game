@@ -22,7 +22,7 @@ return function()
             end
         end)
 
-        beam.receive("miss", self, function()
+        beam.receive("judgement", self, function(type)
             self:removeFirstHitObject()
         end)
 
@@ -45,10 +45,6 @@ return function()
                 beam.emit("judgement", "miss")
             else
                 print("...")
-            end
-
-            if timingDifference <= self.judgements.miss then
-                judgement:removeFirstHitObject()
             end
 
             -- print(timingDifference)
