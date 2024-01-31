@@ -1,5 +1,6 @@
 flux = require "lib.flux"
 beam = require "lib.beam"
+once = require "lib.once"
 
 local play = require "lib.play"
 
