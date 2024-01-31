@@ -3,9 +3,9 @@ local hitObject = require "src.entities.hitObject"
 return function ()
     local track = {}
 
-    function track:load(timings)
+    function track:load(currentSongData)
         self.noteSpeed = 100
-        self.timings = timings
+        self.timings = currentSongData.timings
         self.hitObjects = {}
 
         beam.receive("beatTimes", self, function(beatTimes)

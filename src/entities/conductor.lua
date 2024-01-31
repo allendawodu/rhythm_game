@@ -1,11 +1,13 @@
 return function ()
     local conductor = {}
 
-    function conductor:load(song, bpm, offset)
-        self.song = song
-        self.bpm = bpm
+    function conductor:load(currentSongData)
+        self.song = love.audio.newSource(currentSongData.file, "stream")
+        self.bpm = currentSongData.bpm
         -- Initial time offset for the first beat
-        self.offset = offset
+        self.offset = currentSongData.offset
+        -- Number of notes in the song
+        self.numNotes = currentSongData.timings[#currentSongData.timings]
         -- Counter for which eighth note we're on
         self.beat = 1
         -- Used for error correction in beat timing
@@ -18,7 +20,7 @@ return function ()
         -- Beat prediction and timing
         self.eighthNoteDuration = 60 / self.bpm / 2
         self.beatTimes = {}
-        for i = 1, 1000 do
+        for i = 1, self.numNotes do
             self.beatTimes[i] = i * self.eighthNoteDuration + self.offset - self.userOffset
         end
 
@@ -34,21 +36,31 @@ return function ()
     function conductor:update()
         local currentTime = love.timer.getTime() - self.startTime
         local nextBeatTime = self.beatTimes[self.beat] + self.errorCorrectionFactor
+        local isSongCleared = self.beat >= self.numNotes
 
-        if currentTime >= nextBeatTime then
+        if (currentTime >= nextBeatTime) and not isSongCleared then
             beam.emit("beat", self.beat)
 
             -- Debug
-            if self.beat % 4 == 1 then
-                print("ding!", self.beat)
-            end
+            -- if self.beat % 4 == 1 then
+            --     print("ding!", self.beat)
+            -- end
 
             -- Calculate and apply error correction for next beat
             local beatError = currentTime - nextBeatTime
             self.errorCorrectionFactor = self.errorCorrectionFactor - beatError * self.correctionRate
 
             self.beat = self.beat + 1
+
         end
+
+        if isSongCleared then
+            once.run(self.emitSongClear, false, self)
+        end
+    end
+
+    function conductor:emitSongClear()
+        beam.emit("onSongClear")
     end
 
     return conductor

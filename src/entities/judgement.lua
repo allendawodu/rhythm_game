@@ -4,9 +4,9 @@ local inspect = require "lib.inspect"
 return function()
     local judgement = {}
 
-    function judgement:load(timings)
+    function judgement:load(currentSongData)
         self.body = box(0, 700, love.graphics.getWidth(), 2)
-        self.timings = timings
+        self.timings = currentSongData.timings
         self.hitObjectTimings = {}
         self.startTime = 0
         self.judgements = {
@@ -38,10 +38,10 @@ return function()
             local timingDifference = math.abs(love.timer.getTime() - self.startTime - self.hitObjectTimings[1])
 
             if timingDifference <= self.judgements.hit then
-                print("PERFECT!")
+                -- print("PERFECT!")
                 beam.emit("judgement", "hit")
             elseif timingDifference <= self.judgements.miss then
-                print("MISS.")
+                -- print("MISS.")
                 beam.emit("judgement", "miss")
             else
                 print("...")
