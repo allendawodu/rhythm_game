@@ -33,6 +33,10 @@ return function ()
 
             if self.hitObjects[i].shouldDestroy then
                 table.remove(self.hitObjects, i)
+
+                if #self.hitObjects == 0 then
+                    beam.emit("onSongClear")
+                end
             end
         end
     end

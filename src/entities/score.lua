@@ -5,11 +5,9 @@ return function()
         self.numNotes = currentSongData.timings[#currentSongData.timings]
         self.hitNotes = 0
         self.ratings = {
-            s = 1.0,
-            a = 0.9,
-            b = 0.8,
-            c = 0.7,
-            d = 0.6,
+            perfect = 1.0,
+            superb = 0.8,
+            ok = 0.5,
         }
 
         beam.receive("judgement", self, function(type)
@@ -19,12 +17,25 @@ return function()
         end)
 
         beam.receive("onSongClear", self, function()
-            print(self.hitNotes / self.numNotes)
+            print("Score: ", self:getRating())
         end)
     end
 
     function score:draw()
         
+    end
+
+    function score:getRating()
+        local ratio = self.hitNotes / self.numNotes
+        if ratio >= self.ratings.perfect then
+            return "PERFECT"
+        elseif ratio >= self.ratings.superb then
+            return "Superb"
+        elseif ratio >= self.ratings.ok then
+            return "ok"
+        else
+            return "Try again..."
+        end
     end
 
     return score

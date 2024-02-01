@@ -36,9 +36,8 @@ return function ()
     function conductor:update()
         local currentTime = love.timer.getTime() - self.startTime
         local nextBeatTime = self.beatTimes[self.beat] + self.errorCorrectionFactor
-        local isSongCleared = self.beat >= self.numNotes
 
-        if (currentTime >= nextBeatTime) and not isSongCleared then
+         if (currentTime >= nextBeatTime) and not (self.beat >= self.numNotes) then
             beam.emit("beat", self.beat)
 
             -- Debug
@@ -53,14 +52,6 @@ return function ()
             self.beat = self.beat + 1
 
         end
-
-        if isSongCleared then
-            once.run(self.emitSongClear, false, self)
-        end
-    end
-
-    function conductor:emitSongClear()
-        beam.emit("onSongClear")
     end
 
     return conductor
