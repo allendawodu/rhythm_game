@@ -26,7 +26,7 @@ return function ()
         if self.body.y >= self.disappearHeight - 1 and not self.shouldDestroy then
             self.isVisible = false
             self.shouldDestroy = true
-            beam.emit("judgement", "miss")
+            beam.emit("onJudgement", "miss")
         end
     end
 

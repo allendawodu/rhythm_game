@@ -10,7 +10,7 @@ return function()
             ok = 0.5,
         }
 
-        beam.receive("judgement", self, function(type)
+        beam.receive("onJudgement", self, function(type)
             if type == "hit" then
                 self.hitNotes = self.hitNotes + 1
             end

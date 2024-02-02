@@ -8,7 +8,7 @@ return function ()
         self.timings = currentSongData.timings
         self.hitObjects = {}
 
-        beam.receive("beatTimes", self, function(beatTimes)
+        beam.receive("onGenerateBeatTimes", self, function(beatTimes)
             -- Debug
             -- for i, beatTime in ipairs(beatTimes) do
             --     if i % 4 == 1 then
@@ -20,7 +20,7 @@ return function ()
             end
         end)
 
-        beam.receive("judgement", self, function()
+        beam.receive("onJudgement", self, function()
             self.hitObjects[1].shouldDestroy = true
         end)
 

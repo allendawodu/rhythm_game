@@ -15,7 +15,7 @@ return function ()
         -- Smooth out timing discrepancies without causing abrupt changes
         self.correctionRate = 60 / self.bpm * 0.005
         -- Offset set by the user during calibration (positive moves judgement downwards)
-        self.userOffset = 0.0  -- -0.1 for laptop, 0.0 for Desktop
+        self.userOffset = 0.25  -- 0.25 for laptop, 0.0 for Desktop
 
         -- Beat prediction and timing
         self.eighthNoteDuration = 60 / self.bpm / 2
@@ -28,7 +28,7 @@ return function ()
         self.song:play()
         self.startTime = love.timer.getTime() - self.eighthNoteDuration
 
-        beam.emit("beatTimes", self.beatTimes, self.startTime)
+        beam.emit("onGenerateBeatTimes", self.beatTimes, self.startTime)
 
         return self
     end
@@ -38,7 +38,7 @@ return function ()
         local nextBeatTime = self.beatTimes[self.beat] + self.errorCorrectionFactor
 
          if (currentTime >= nextBeatTime) and not (self.beat >= self.numNotes) then
-            beam.emit("beat", self.beat)
+            beam.emit("onBeat", self.beat)
 
             -- Debug
             -- if self.beat % 4 == 1 then
