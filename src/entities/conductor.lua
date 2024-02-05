@@ -6,8 +6,6 @@ return function ()
         self.bpm = currentSongData.bpm
         -- Initial time offset for the first beat
         self.offset = currentSongData.offset
-        -- Number of notes in the song
-        self.numNotes = currentSongData.timings[#currentSongData.timings]
         -- Counter for which eighth note we're on
         self.beat = 1
         -- Used for error correction in beat timing
@@ -15,7 +13,15 @@ return function ()
         -- Smooth out timing discrepancies without causing abrupt changes
         self.correctionRate = 60 / self.bpm * 0.005
         -- Offset set by the user during calibration (positive moves judgement downwards)
-        self.userOffset = 0.25  -- 0.25 for laptop, 0.0 for Desktop
+        self.userOffset = 0.0  -- 0.25 for laptop, 0.0 for Desktop
+
+        -- Number of notes in the song
+        self.numNotes = currentSongData.timings[1][#currentSongData.timings[1]]
+        for _, timings in ipairs(currentSongData.timings) do
+            if timings[#timings] > self.numNotes then
+                self.numNotes = #timings
+            end
+        end
 
         -- Beat prediction and timing
         self.eighthNoteDuration = 60 / self.bpm / 2

@@ -1,5 +1,4 @@
 local box = require "lib.box"
-local inspect = require "lib.inspect"
 
 return function()
     local judgement = {}
@@ -17,13 +16,17 @@ return function()
         beam.receive("onGenerateBeatTimes", self, function(beatTimes, startTime)
             self.startTime = startTime
 
-            for _, timing in ipairs(self.timings) do
-                table.insert(self.hitObjectTimings, beatTimes[timing])
+            for lane, timings in ipairs(self.timings) do
+                self.hitObjectTimings[lane] = {}
+
+                for _, timing in pairs(timings) do
+                    table.insert(self.hitObjectTimings[lane], beatTimes[timing])
+                end
             end
         end)
 
-        beam.receive("onJudgement", self, function(type)
-            self:removeFirstHitObject()
+        beam.receive("onJudgement", self, function(_, lane)
+            self:removeFirstHitObject(lane)
         end)
 
         return self
@@ -34,20 +37,28 @@ return function()
     end
 
     function judgement:keyPressed(key)
-        if key == "space" then
-            local timingDifference = math.abs(love.timer.getTime() - self.startTime - self.hitObjectTimings[1])
+        if key == "left" then
+            local timingDifference = math.abs(love.timer.getTime() - self.startTime - self.hitObjectTimings[1][1])
 
             if timingDifference <= self.judgements.hit then
-                -- print("PERFECT!")
-                beam.emit("onJudgement", "hit")
+                beam.emit("onJudgement", "hit", 1)
             elseif timingDifference <= self.judgements.miss then
-                -- print("MISS.")
-                beam.emit("onJudgement", "miss")
+                beam.emit("onJudgement", "miss", 1)
             else
-                print("...")
+                print("... (1)")
             end
+        end
 
-            -- print(timingDifference)
+        if key == "right" then
+            local timingDifference = math.abs(love.timer.getTime() - self.startTime - self.hitObjectTimings[2][1])
+
+            if timingDifference <= self.judgements.hit then
+                beam.emit("onJudgement", "hit", 2)
+            elseif timingDifference <= self.judgements.miss then
+                beam.emit("onJudgement", "miss", 2)
+            else
+                print("... (2)")
+            end
         end
 
         if key == "n" then
@@ -55,10 +66,8 @@ return function()
         end
     end
 
-    function judgement:removeFirstHitObject()
-        table.remove(self.hitObjectTimings, 1)
-        -- Debug
-        -- print(inspect(self.hitObjectTimings))
+    function judgement:removeFirstHitObject(lane)
+        table.remove(self.hitObjectTimings[lane], 1)
     end
 
     return judgement

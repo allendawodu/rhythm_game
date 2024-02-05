@@ -1,3 +1,6 @@
+local vector2 = require "lib.vector2"
+local inspect = require "lib.inspect"
+
 local hitObject = require "src.entities.hitObject"
 
 return function ()
@@ -9,41 +12,46 @@ return function ()
         self.hitObjects = {}
 
         beam.receive("onGenerateBeatTimes", self, function(beatTimes)
-            -- Debug
-            -- for i, beatTime in ipairs(beatTimes) do
-            --     if i % 4 == 1 then
-            --         table.insert(self.hitObjects, hitObject():load(beatTime, -(i * self.noteSpeed) - 100))
-            --     end
-            -- end
-            for _, timing in ipairs(self.timings) do
-                table.insert(self.hitObjects, hitObject():load(beatTimes[timing], -(timing * self.noteSpeed)))
+            for lane, timings in ipairs(self.timings) do
+                self.hitObjects[lane] = {}
+
+                for _, timing in pairs(timings) do
+                    table.insert(self.hitObjects[lane], hitObject():load(
+                        beatTimes[timing],
+                        vector2(love.graphics.getWidth() / 2 - 100 + (lane - 1) * 200, -(timing * self.noteSpeed))
+                    ))
+                end
             end
         end)
 
-        beam.receive("onJudgement", self, function()
-            self.hitObjects[1].shouldDestroy = true
+        beam.receive("onJudgement", self, function(_, lane)
+            self.hitObjects[lane][1].shouldDestroy = true
+
+            if #self.hitObjects[1] == 0 and #self.hitObjects[2] == 0 then
+                beam.emit("onSongClear")
+            end
         end)
 
         return self
     end
 
     function track:update()
-        for i = #self.hitObjects, 1, -1 do
-            self.hitObjects[i]:update()
+        for lane, _ in ipairs(self.hitObjects) do
+            for i = #self.hitObjects[lane], 1, -1 do
+                self.hitObjects[lane][i]:update()
 
-            if self.hitObjects[i].shouldDestroy then
-                table.remove(self.hitObjects, i)
-
-                if #self.hitObjects == 0 then
-                    beam.emit("onSongClear")
+                if self.hitObjects[lane][i].shouldDestroy then
+                    table.remove(self.hitObjects[lane], i)
                 end
             end
         end
     end
 
     function track:draw()
-        for i = #self.hitObjects, 1, -1 do
-            self.hitObjects[i]:draw()
+        for lane, _ in ipairs(self.hitObjects) do
+            for i = #self.hitObjects[lane], 1, -1 do
+                self.hitObjects[lane][i]:draw()
+            end
         end
     end
 

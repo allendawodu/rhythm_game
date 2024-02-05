@@ -16,7 +16,11 @@ function game:load()
             file = "dev/milk.ogg",
             bpm = 150,
             offset = 1.6,
-            timings = {1, 5, 9, 33, 37, 41, 65, 69, 73, 97, 101, 105, 129, 133, 137, 141, 145, 149, 153, 157, 158, 159, 160}
+            -- timings = 
+            timings = {
+                [1] = {1, 5, 9, 33, 37, 41, 65, 69, 73, 97, 101, 105, 129, 133, 137, 141, 145, 149, 153, 157, 158, 159, 160},
+                [2] = {1, 3, 7, 9}
+            }
         },
         carnation = {
             name = "Carnation",
@@ -40,7 +44,7 @@ function game:load()
 end
 
 function game:enter(previous, ...)
-    song = "yggdrasil"
+    song = "milk"
     local currentSongData = songData[song]
 
     track = require("src.entities.track")():load(currentSongData)

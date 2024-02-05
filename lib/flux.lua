@@ -89,6 +89,9 @@ tween.oncomplete  = makefsetter("_oncomplete")
 function tween.new(obj, time, vars)
   local self = setmetatable({}, tween)
   self.obj = obj
+  if type(time) == "nil" then
+    error("time is nil", 3)
+  end
   self.rate = time > 0 and 1 / time or 0
   self.progress = time > 0 and 0 or 1
   self._delay = 0

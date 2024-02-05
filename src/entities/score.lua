@@ -2,7 +2,6 @@ return function()
     local score = {}
 
     function score:load(currentSongData)
-        self.numNotes = currentSongData.timings[#currentSongData.timings]
         self.hitNotes = 0
         self.ratings = {
             perfect = 1.0,
@@ -10,7 +9,14 @@ return function()
             ok = 0.5,
         }
 
-        beam.receive("onJudgement", self, function(type)
+        self.numNotes = currentSongData.timings[1][#currentSongData.timings[1]]
+        for _, timings in ipairs(currentSongData.timings) do
+            if timings[#timings] > self.numNotes then
+                self.numNotes = #timings
+            end
+        end
+
+        beam.receive("onJudgement", self, function(type, _)
             if type == "hit" then
                 self.hitNotes = self.hitNotes + 1
             end
@@ -27,6 +33,7 @@ return function()
 
     function score:getRating()
         local ratio = self.hitNotes / self.numNotes
+        print(ratio)
         if ratio >= self.ratings.perfect then
             return "PERFECT"
         elseif ratio >= self.ratings.superb then
