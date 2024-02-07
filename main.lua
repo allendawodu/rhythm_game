@@ -1,13 +1,19 @@
 flux = require "lib.flux"
 beam = require "lib.beam"
 once = require "lib.once"
+lume = require "lib.lume"
+settings = require "src.entities.settings"
 
 local play = require "lib.play"
 
 function love.load()
-    local game = require "src.scenes.game"
+    settings.load()
 
-    play.start(game)
+    local game = require "src.scenes.game"
+    local calibration = require "src.scenes.calibration"
+
+    play.start(game, calibration)
+    -- play.start(calibration)
 end
 
 function love.update(dt)
@@ -20,6 +26,12 @@ function love.draw()
 end
 
 function love.keypressed(key, scancode, isRepeat)
+    if key == "f5" then
+        settings.reset()
+        print("Settings have been reset.")
+        love.event.quit("restart")
+    end
+
     play.keyPressed(key, scancode, isRepeat)
 end
 
