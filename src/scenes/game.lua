@@ -27,10 +27,10 @@ function game:load()
             artist = "Himmel",
             file = "dev/carnation.ogg",
             bpm = 118,
-            offset = 2.5585,
+            offset = 2.5585 - 0.5085,
             timings = {
-                [1] = {1},
-                [2] = {1}
+                [1] = {2, 3, 4, 5, 9, 11, 13, 15, 16, 17, 19, 21, 23, 25, 27, 29, 31, 33, 700},
+                [2] = {}
             }
         },
         yggdrasil = {
@@ -50,7 +50,9 @@ function game:load()
 end
 
 function game:enter(previous, ...)
-    song = "yggdrasil"
+    love.graphics.setBackgroundColor(0.67, 1.0, 0.6)
+
+    song = "carnation"
     local currentSongData = songData[song]
 
     track = require("src.entities.track")():load(currentSongData)

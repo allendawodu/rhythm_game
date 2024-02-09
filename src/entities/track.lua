@@ -1,5 +1,4 @@
 local vector2 = require "lib.vector2"
-local inspect = require "lib.inspect"
 
 local hitObject = require "src.entities.hitObject"
 
@@ -18,7 +17,8 @@ return function ()
                 for _, timing in pairs(timings) do
                     table.insert(self.hitObjects[lane], hitObject():load(
                         beatTimes[timing],
-                        vector2(love.graphics.getWidth() / 2 - 100 + (lane - 1) * 200, -(timing * self.noteSpeed))
+                        vector2(love.graphics.getWidth() / 2 - 100 + (lane - 1) * 200, -(timing * self.noteSpeed)),
+                        lane
                     ))
                 end
             end

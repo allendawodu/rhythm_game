@@ -3,13 +3,25 @@ local box = require "lib.box"
 return function ()
     local hit = {}
 
-    function hit:load(beatTime, position)
-        self.image = love.graphics.newImage("dev/tap_note.png")
+    function hit:load(beatTime, position, lane)
+        self.image = love.graphics.newImage("assets/kiwi/" .. lume.randomchoice({
+            "pink",
+            "black",
+            "blue",
+            "orange",
+            "yellow",
+            "green"
+        }) .. ".png")
         self.body = box(position.x, position.y, self.image:getWidth(), self.image:getHeight())
         self.judgementLineHeight = 700
         self.disappearHeight = self.judgementLineHeight + 50
         self.isVisible = false
         self.shouldDestroy = false
+        self.rotation = {
+            offset = love.math.random() * 5,
+            rotation = 0,
+        }
+        self.lane = lane
 
         flux.to(self.body, beatTime, {y = self.judgementLineHeight})
             :ease("linear")
@@ -26,18 +38,15 @@ return function ()
         if self.body.y >= self.disappearHeight - 1 and not self.shouldDestroy then
             self.isVisible = false
             self.shouldDestroy = true
-            -- FIXME: This is a quick fix for the hitObject to know which lane it is on.
-            if self.body.x < love.graphics.getWidth() / 2 then
-                beam.emit("onJudgement", "miss", 1)
-            else
-                beam.emit("onJudgement", "miss", 2)
-            end
+            beam.emit("onJudgement", "miss", self.lane)
         end
+
+        self.rotation.rotation = math.sin(love.timer.getTime() + self.rotation.offset) * 5
     end
 
     function hit:draw()
         if self.isVisible then
-            love.graphics.draw(self.image, self.body.x - self.body.width / 2, self.body.y - self.body.height / 2)
+            love.graphics.draw(self.image, self.body.x, self.body.y, self.rotation.rotation, 1, 1, self.body.width / 2, self.body.height / 2)
         end
     end
 
