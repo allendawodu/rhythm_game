@@ -12,10 +12,14 @@ return function ()
         self.errorCorrectionFactor = 0
         -- Smooth out timing discrepancies without causing abrupt changes
         self.correctionRate = 60 / self.bpm * 0.005
+
+
         -- Offset set by the user during calibration (positive moves judgement downwards)
-        self.userOffset = 0.0  -- 0.25 for laptop, 0.0 for Desktop
+        self.userOffset = settings.data.userOffset
+        print("User Offset: " .. self.userOffset)
 
         -- Number of notes in the song
+        -- FIXME: Breaks if there are no notes
         self.numNotes = currentSongData.timings[1][#currentSongData.timings[1]]
         for _, timings in ipairs(currentSongData.timings) do
             if timings[#timings] > self.numNotes then
@@ -58,6 +62,10 @@ return function ()
             self.beat = self.beat + 1
 
         end
+    end
+
+    function conductor:stop()
+        self.song:stop()
     end
 
     return conductor
