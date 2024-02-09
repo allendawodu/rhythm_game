@@ -5,15 +5,22 @@ return function()
         self.hitNotes = 0
         self.ratings = {
             perfect = 1.0,
-            superb = 0.8,
-            ok = 0.5,
+            superb = 0.5,
+            ok = 0.3,
         }
 
+        -- FIXME: This is duplicated code from conductor.lua
         self.numNotes = currentSongData.timings[1][#currentSongData.timings[1]]
         for _, timings in ipairs(currentSongData.timings) do
+            if type(timings[#timings]) == "nil" then
+                goto continue
+            end
+
             if timings[#timings] > self.numNotes then
                 self.numNotes = #timings
             end
+
+            ::continue::
         end
 
         beam.receive("onJudgement", self, function(type, _)

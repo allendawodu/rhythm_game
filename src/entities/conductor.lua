@@ -19,12 +19,17 @@ return function ()
         print("User Offset: " .. self.userOffset)
 
         -- Number of notes in the song
-        -- FIXME: Breaks if there are no notes
         self.numNotes = currentSongData.timings[1][#currentSongData.timings[1]]
         for _, timings in ipairs(currentSongData.timings) do
+            if type(timings[#timings]) == "nil" then
+                goto continue
+            end
+
             if timings[#timings] > self.numNotes then
                 self.numNotes = #timings
             end
+
+            ::continue::
         end
 
         -- Beat prediction and timing
@@ -51,7 +56,7 @@ return function ()
             beam.emit("onBeat", self.beat)
 
             -- Debug
-            -- if self.beat % 4 == 1 then
+            -- if self.beat % 2 == 1 then
             --     print("ding!", self.beat)
             -- end
 

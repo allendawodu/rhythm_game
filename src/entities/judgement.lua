@@ -37,7 +37,7 @@ return function()
     end
 
     function judgement:keyPressed(key)
-        if key == "left" then
+        if key == "left" and self.hitObjectTimings[1][1] then
             local timingDifference = math.abs(love.timer.getTime() - self.startTime - self.hitObjectTimings[1][1])
 
             if timingDifference <= self.judgements.hit then
@@ -49,7 +49,7 @@ return function()
             end
         end
 
-        if key == "right" then
+        if key == "right" and self.hitObjectTimings[2][1] then
             local timingDifference = math.abs(love.timer.getTime() - self.startTime - self.hitObjectTimings[2][1])
 
             if timingDifference <= self.judgements.hit then
