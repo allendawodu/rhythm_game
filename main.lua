@@ -9,11 +9,14 @@ local play = require "lib.play"
 function love.load()
     settings.load()
 
+    songData = require "src.entities.song_data"
+
     local game = require "src.scenes.game"
     local calibration = require "src.scenes.calibration"
+    local songSelect = require "src.scenes.song_select"
 
-    play.start(game, calibration)
-    -- play.start(calibration)
+    -- play.start(game, calibration, songSelect)
+    play.start(songSelect)
 end
 
 function love.update(dt)
