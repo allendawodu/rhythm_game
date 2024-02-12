@@ -1,6 +1,6 @@
 local vector2 = require "lib.vector2"
 
-local hitObject = require "src.entities.hitObject"
+local hitObject = require "src.entities.hit_object"
 
 return function ()
     local track = {}
