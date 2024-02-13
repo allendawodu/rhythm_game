@@ -13,7 +13,7 @@ end
 function game:enter(previous, ...)
     love.graphics.setBackgroundColor(0.67, 1.0, 0.6)
 
-    song = "carnation"
+    song = ({...})[1]
     local currentSongData = songData[song]
 
     track = require("src.entities.track")():load(currentSongData)
@@ -34,6 +34,11 @@ end
 
 function game:keyPressed(key, scancode, isRepeat)
     judgement:keyPressed(key)
+
+    if key == "escape" then
+        conductor.song:stop()
+        play.switch("songSelect", song)
+    end
 end
 
 function game:exit()

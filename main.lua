@@ -15,8 +15,8 @@ function love.load()
     local calibration = require "src.scenes.calibration"
     local songSelect = require "src.scenes.song_select"
 
-    -- play.start(game, calibration, songSelect)
-    play.start(songSelect)
+    play.start(songSelect, game, calibration)
+    -- play.start(songSelect)
 end
 
 function love.update(dt)

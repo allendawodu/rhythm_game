@@ -20,7 +20,7 @@ function songSelect:enter(previous, ...)
 
     sortedSongs = self:sortSongs()
 
-    currentSong = sortedSongs[1]
+    currentSong = ({...})[1] or sortedSongs[1]
     self:playSong()
 end
 
@@ -61,6 +61,9 @@ function songSelect:keyPressed(key, scancode, isRepeat)
                 break
             end
         end
+    elseif key == "return" then
+        source:stop()
+        play.switch("game", currentSong)
     end
 end
 
@@ -73,6 +76,7 @@ function songSelect:playSong()
         source:stop()
     end
     source = love.audio.newSource(songData[currentSong].file, "stream")
+    source:setLooping(true)
     source:seek(songData[currentSong].demo, "seconds")
     source:play()
     nowPlayingText:set("Now playing " .. songData[currentSong].name)
