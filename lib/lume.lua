@@ -138,7 +138,7 @@ end
 
 
 function lume.randomchoice(t)
-  return t[math.random(#t)]
+  return t[love.math.random(#t)]
 end
 
 

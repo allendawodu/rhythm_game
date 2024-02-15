@@ -33,31 +33,16 @@ function songSelect:draw()
 end
 
 function songSelect:keyPressed(key, scancode, isRepeat)
-    if key == "right" then
+    if key == "right" or key == "left" then
         for index, k in ipairs(sortedSongs) do
             if k == currentSong then
-                if index == #sortedSongs then
-                    currentSong = sortedSongs[1]
-                else
-                    currentSong = sortedSongs[index + 1]
+                if key == "right" then
+                    currentSong = sortedSongs[index % #sortedSongs + 1]
+                else -- key == "left"
+                    currentSong = sortedSongs[(index - 2) % #sortedSongs + 1]
                 end
 
                 self:playSong()
-
-                break
-            end
-        end
-    elseif key == "left" then
-        for index, k in ipairs(sortedSongs) do
-            if k == currentSong then
-                if index == 1 then
-                    currentSong = sortedSongs[#sortedSongs]
-                else
-                    currentSong = sortedSongs[index - 1]
-                end
-
-                self:playSong()
-
                 break
             end
         end
