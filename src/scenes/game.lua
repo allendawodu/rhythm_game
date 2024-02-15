@@ -6,6 +6,7 @@ local song
 local track
 local conductor
 local judgement
+local bird
 
 function game:load()
 end
@@ -20,6 +21,8 @@ function game:enter(previous, ...)
     judgement = require("src.entities.judgement")():load(currentSongData)
     conductor = require("src.entities.conductor")():load(currentSongData)
     score = require("src.entities.score")():load(currentSongData)
+
+    bird = require("src.entities.visual_elements.bird")():load()
 end
 
 function game:update(dt)
@@ -30,6 +33,7 @@ end
 function game:draw()
     track:draw()
     judgement:draw()
+    bird:draw()
 end
 
 function game:keyPressed(key, scancode, isRepeat)

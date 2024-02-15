@@ -9,8 +9,8 @@ return function()
         self.hitObjectTimings = {}
         self.startTime = 0
         self.judgements = {
-            hit = 0.5,
-            miss = 1,
+            hit = 0.4,
+            miss = 0.8,
         }
 
         beam.receive("onGenerateBeatTimes", self, function(beatTimes, startTime)
