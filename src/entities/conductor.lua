@@ -52,7 +52,7 @@ return function ()
         local currentTime = love.timer.getTime() - self.startTime
         local nextBeatTime = self.beatTimes[self.beat] + self.errorCorrectionFactor
 
-         if (currentTime >= nextBeatTime) and not (self.beat >= self.numNotes) then
+        if (currentTime >= nextBeatTime) and not (self.beat >= self.numNotes) then
             beam.emit("onBeat", self.beat)
 
             -- Debug
@@ -65,7 +65,6 @@ return function ()
             self.errorCorrectionFactor = self.errorCorrectionFactor - beatError * self.correctionRate
 
             self.beat = self.beat + 1
-
         end
     end
 

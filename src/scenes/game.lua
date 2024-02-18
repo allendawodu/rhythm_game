@@ -19,10 +19,10 @@ function game:enter(previous, ...)
 
     track = require("src.entities.track")():load(currentSongData)
     judgement = require("src.entities.judgement")():load(currentSongData)
+    bird = require("src.entities.visual_elements.bird")():load()
     conductor = require("src.entities.conductor")():load(currentSongData)
     score = require("src.entities.score")():load(currentSongData)
 
-    bird = require("src.entities.visual_elements.bird")():load()
 end
 
 function game:update(dt)
