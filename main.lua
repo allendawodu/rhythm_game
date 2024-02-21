@@ -12,12 +12,12 @@ function love.load()
     songData = require "src.entities.song_data"
 
     local game = require "src.scenes.game"
-    -- local calibration = require "src.scenes.calibration"
+    local calibration = require "src.scenes.calibration"
     local songSelect = require "src.scenes.song_select"
     local mainMenu = require "src.scenes.main_menu"
 
     play.start(mainMenu, songSelect, game, calibration)
-    -- play.start(songSelect)
+    -- play.start(calibration)
 end
 
 function love.run()
@@ -63,7 +63,6 @@ function love.run()
 end
 
 function love.update(dt)
-    print(love.timer.getFPS())
     flux.update(dt)
     play.update(dt)
 end

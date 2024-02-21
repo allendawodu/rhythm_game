@@ -48,7 +48,11 @@ function songSelect:keyPressed(key, scancode, isRepeat)
         end
     elseif key == "return" then
         source:stop()
-        play.switch("game", currentSong)
+        if currentSong == "z_metronome" then
+            play.switch("calibration")
+        else
+            play.switch("game", currentSong)
+        end
     end
 end
 

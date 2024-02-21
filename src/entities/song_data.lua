@@ -1,14 +1,14 @@
-return {
-    milk = {
-        name = "MilK",
-        artist = "モリモリあつし",
-        file = "dev/milk.ogg",
-        demo = 26,
-        bpm = 150,
-        offset = 1.6,
+local songData = {
+   z_metronome = {
+        name = "60 BPM - Metronome",
+        artist = "Drumset Fundamentals",
+        file = "dev/metronome_cut.ogg",
+        demo = 1.0,
+        bpm = 60,
+        offset = 1.0425,
         timings = {
-            [1] = {1, 5, 9, 33, 37, 41, 65, 69, 73, 97, 101, 105, 129, 133, 137, 141, 145, 149, 153, 157, 158, 159, 160},
-            [2] = {1, 3, 7, 9}
+            [1] = {},
+            [2] = {}
         }
     },
     carnation = {
@@ -23,11 +23,23 @@ return {
             [2] = {}
         }
     },
+    milk = {
+        name = "MilK",
+        artist = "モリモリあつし",
+        file = "dev/milk.ogg",
+        demo = 26.0,
+        bpm = 150,
+        offset = 1.6,
+        timings = {
+            [1] = {1, 5, 9, 33, 37, 41, 65, 69, 73, 97, 101, 105, 129, 133, 137, 141, 145, 149, 153, 157, 158, 159, 160},
+            [2] = {1, 3, 7, 9}
+        }
+    },
     yggdrasil = {
         name = "Yggdrasil",
         artist = "MYTK",
         file = "dev/yggdrasil.ogg",
-        demo = 31,
+        demo = 31.0,
         bpm = 180,
         offset = 0.908,
         -- FIXME
@@ -37,3 +49,16 @@ return {
         }
     }
 }
+
+-- Populate metronome timings
+for i = 1, 119 * 4 do
+    if (i - 1) % 2 == 1 then
+        table.insert(songData.z_metronome.timings[1], i)
+    end
+
+    if (i - 1) % 8 == 1 then
+        table.insert(songData.z_metronome.timings[2], i)
+    end
+end
+
+return songData

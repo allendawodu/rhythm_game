@@ -36,7 +36,7 @@ return function ()
         self.eighthNoteDuration = 60 / self.bpm / 2
         self.beatTimes = {}
         for i = 1, self.numNotes do
-            self.beatTimes[i] = i * self.eighthNoteDuration + self.offset - self.userOffset
+            self.beatTimes[i] = i * self.eighthNoteDuration + self.offset + self.userOffset
         end
 
         -- Start song
