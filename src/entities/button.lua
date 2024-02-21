@@ -12,7 +12,6 @@ return function()
     end
 
     function button:update(dt)
-
     end
 
     function button:draw()
@@ -25,8 +24,8 @@ return function()
         end
     end
 
-    function button:mousePressed(mouseX, mouseY)
-        if self.body:isMouseColliding(mouseX, mouseY) then
+    function button:mousePressed(mouseX, mouseY, mouseButton)
+        if mouseButton == 1 and self.body:isMouseColliding(mouseX, mouseY) then
             self.onClickCallback()
         end
     end

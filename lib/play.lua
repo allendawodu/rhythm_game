@@ -27,6 +27,7 @@ function play.Scene(name)
         keyReleased = function(self, key, scancode) end,
         mousePressed = function(self, x, y, button, isTouch, presses) end,
         mouseReleased = function(self, x, y, button, isTouch, presses) end,
+        mouseMoved = function(self, x, y, dx, dy, isTouch) end,
         exit = function(self) end,
     }
 
@@ -64,6 +65,10 @@ end
 
 function play.mouseReleased(x, y, button, isTouch, presses)
     play.current:mouseReleased(x, y, button, isTouch, presses)
+end
+
+function play.mouseMoved(x, y, dx, dy, isTouch)
+    play.current:mouseMoved(x, y, dx, dy, isTouch)
 end
 
 return play

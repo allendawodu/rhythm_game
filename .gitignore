@@ -1,3 +1,6 @@
 dev/
 builds/
 .vscode/
+assets/kiwi/bird/dump/
+*.gif
+*.m4a

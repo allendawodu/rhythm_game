@@ -1,6 +1,7 @@
 local settings = {
     data = {
         userOffset = 0.0,
+        vsync = 1,
     },
 }
 
@@ -22,6 +23,7 @@ end
 function settings.reset()
     local defaults = {
         userOffset = 0.0,
+        vsync = 1,
     }
 
     love.filesystem.write("savedata.txt", lume.serialize(defaults))

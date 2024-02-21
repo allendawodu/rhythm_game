@@ -8,6 +8,7 @@ local play = require "lib.play"
 
 function love.load()
     settings.load()
+	love.window.setVSync(settings.data.vsync)
 
     songData = require "src.entities.song_data"
 
@@ -15,8 +16,9 @@ function love.load()
     local calibration = require "src.scenes.calibration"
     local songSelect = require "src.scenes.song_select"
     local mainMenu = require "src.scenes.main_menu"
+	local optionsMenu = require "src.scenes.options_menu"
 
-    play.start(mainMenu, songSelect, game, calibration)
+    play.start(mainMenu, songSelect, game, calibration, optionsMenu)
     -- play.start(calibration)
 end
 
@@ -63,6 +65,7 @@ function love.run()
 end
 
 function love.update(dt)
+	print(love.timer.getFPS())
     flux.update(dt)
     play.update(dt)
 end
@@ -83,6 +86,10 @@ end
 
 function love.mousepressed(x, y, button, isTouch, presses)
     play.mousePressed(x, y, button, isTouch, presses)
+end
+
+function love.mousemoved(x, y, dx, dy, isTouch)
+	play.mouseMoved(x, y, dx, dy, isTouch)
 end
 
 --------------------------------------------------

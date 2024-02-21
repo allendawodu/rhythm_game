@@ -53,6 +53,9 @@ function songSelect:keyPressed(key, scancode, isRepeat)
         else
             play.switch("game", currentSong)
         end
+    elseif key == "1" then
+        source:stop()
+        play.switch("optionsMenu")
     end
 end
 

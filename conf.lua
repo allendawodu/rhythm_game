@@ -7,5 +7,4 @@ function love.conf(t)
     t.console = false
     t.window.title = "Rhythm Game"
     -- t.window.icon = ""
-    t.window.vsync = 1
 end
