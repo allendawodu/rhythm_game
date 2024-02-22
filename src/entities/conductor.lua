@@ -33,7 +33,7 @@ return function ()
         end
 
         -- Beat prediction and timing
-        self.eighthNoteDuration = 60 / self.bpm / 2
+        self.eighthNoteDuration = 60 / self.bpm / 4 -- FIXME
         self.beatTimes = {}
         for i = 1, self.numNotes do
             self.beatTimes[i] = i * self.eighthNoteDuration + self.offset + self.userOffset

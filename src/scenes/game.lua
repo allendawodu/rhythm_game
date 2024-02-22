@@ -28,6 +28,7 @@ end
 function game:update(dt)
     conductor:update()
     track:update()
+    bird:update()
 end
 
 function game:draw()
@@ -38,6 +39,7 @@ end
 
 function game:keyPressed(key, scancode, isRepeat)
     judgement:keyPressed(key)
+    bird:keyPressed(key)
 
     if key == "escape" then
         conductor.song:stop()

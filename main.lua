@@ -65,7 +65,6 @@ function love.run()
 end
 
 function love.update(dt)
-	print(love.timer.getFPS())
     flux.update(dt)
     play.update(dt)
 end
